@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
@@ -26,19 +26,52 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email:
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-        </label>
+    <div className="container mt-5">
+      <div className="row justify-content-between align-items-center mb-4">
+        <div className="col">
+          <h2>Login</h2>
+        </div>
+        <div className="col text-right">
+          <NavLink to="/" className="btn btn-link">
+            Don't have an account? Register
+          </NavLink>
+        </div>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label>Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        <label>Password:
-          <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-        </label>
+                <div className="form-group">
+                  <label>Password:</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
 
-        <button type="submit">Login</button>
-      </form>
+                <button type="submit" className="btn btn-primary btn-block">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

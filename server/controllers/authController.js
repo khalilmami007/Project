@@ -4,13 +4,22 @@ const jwt = require('jsonwebtoken');
 
 // Registration
 exports.register = async (req, res) => {
-    try {
-      console.log("Request Body:", req.body);
-  
-      const { Firstname, Lastname, email, password, confirmPassword } = req.body;
-  
-      console.log("Password:", password);
-      console.log("Confirm Password:", confirmPassword);
+  try {
+    console.log("Request Body:", req.body);
+
+    const {
+      Firstname,
+      Lastname,
+      email,
+      password,
+      confirmPassword,
+      address,
+      city,
+      state,
+    } = req.body;
+
+    console.log("Password:", password);
+    console.log("Confirm Password:", confirmPassword);
 
     // Check if the passwords match
     if (password !== confirmPassword) {
@@ -32,8 +41,10 @@ exports.register = async (req, res) => {
       Lastname,
       email,
       password: hashedPassword,
+      address,
+      city,
+      state,
     });
-    
 
     // Save the user to the database
     await newUser.save();
