@@ -1,52 +1,51 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose= require("mongoose")
 
-const UserSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: [true, "First name is required"],
-  },
-  lastName: {
-    type: String,
-    required: [true, "Last name is required"],
-  },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-    validate: {
-      validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
-      message: "Please enter a valid email",
+const User=new mongoose.Schema({
+
+    Firstname:{
+        type:String,
+        required:[true,"The FirstName is required"]
+
     },
-  },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-    minlength: [8, "Password must be 8 characters or longer"],
-  },
-  confirmPassword: {
-    type: String,
-    required: [true, "Confirm password is required"],
-    validate: {
-      validator: function (val) {
-        return val === this.password;
-      },
-      message: "Passwords do not match",
+
+    Lastname:{
+        type:String,
+        required:[true,"The LastName is required"]
+
     },
-  },
-}, { timestamps: true });
+    email: {
+        type: String,
+        required: [true,"The Email is required"],
+        unique: true,
+        lowercase: true,
+        trim: true,
+        validate: {
+            validator: (value) => {
+                // here you can add your custom validation logic for email format
+                return value.match(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/);
+            },
+            message: "Please enter a valid email"
+        }
+    },
+    password: {
+        type: String,
+        required: [true, "The Password is required"],
+        minlength: [8, "The Password must be at least 8 characters"],
+        validate: {
+            validator: (value) => {
+                // Custom validation logic for password format
+                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(value);
+            },
+            message: "The Password must contain at least one lowercase letter, one uppercase letter, and one number"
+    
+        
+        },}
+    
+    
 
-// Hash password before saving
-UserSchema.pre('save', async function (next) {
-  try {
-    const hashedPassword = await bcrypt.hash(this.password, 10);
-    this.password = hashedPassword;
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
 
-const User = mongoose.model('User', UserSchema);
+})
 
-module.exports = User;
+const UserModel = mongoose.model('User', User)
+
+module.exports = UserModel

@@ -1,19 +1,19 @@
-const express = require('express');
-const app = express()
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const authRoutes = require('./routes/authRoutes');
+const express = require("express");
+const cors = require("cors");
+
+
+const app = express();
+
+app.use(express.json(), express.urlencoded({ extended: true }), cors());
+
 require("dotenv").config()
 require("./config/mongoose.config")
 
-const port = process.env.PORT
-app.use(cors());
-app.use(bodyParser.json());
+const port = process.env.PORT;
 
-app.use('/auth', authRoutes);
-
+const Routes = require("./routes/authroute");
+Routes(app);
 
 app.listen(port, () => {
-    console.log(`>>>>> Server is running on Port ${port} 🎈🎈🎈`)
-})
+    console.log(`>>>>> Server is running on Port ${port} 🎈🎈🎈`);
+});
